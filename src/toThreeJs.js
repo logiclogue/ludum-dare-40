@@ -39,13 +39,13 @@ Water.prototype.toMesh = function () {
     return this._mesh;
 };
 
-Player.prototype.toCamera = function () {
+Player.prototype.toCamera = function (browserState) {
     if (!this._camera) {
         this._camera = new THREE.PerspectiveCamera(
             75,
-            window.innerWidth / window.innerHeight,
+            browserState.width / browserState.height,
             0.1,
-            10);
+            1000);
     }
 
     this._camera.position.y = 2;

@@ -12,9 +12,9 @@ var ThreeJsState = require("./ThreeJsState");
 var renderer = new THREE.WebGLRenderer();
 
 (function () {
-    document.body.appendChild(renderer.domElement);
-
     resize(BrowserState.create());
+
+    document.body.appendChild(renderer.domElement);
 
     var boxes = _(levels.sample)
         .map2D((value, x, y) => {
@@ -30,14 +30,14 @@ var renderer = new THREE.WebGLRenderer();
     var gameState = new GameState(player, boxes);
 
     var updateStream = Bacon
-        .interval(50, x => x.tick());
+        .interval(1000 / 60, x => x.tick());
 
     var keydownStream = Bacon.fromEvent(document.body, "keydown");
     var keyupStream = Bacon.fromEvent(document.body, "keyup");
 
     var forwardStream = keydownStream
         .filter(x => x.key == "w")
-        .map(() => game => game.setPlayer(game.player.setVelocity(0.1)));
+        .map(() => game => game.setPlayer(game.player.setVelocity(1)));
     var stopStream = keyupStream
         .filter(x => x.key == "w")
         .map(() => game => game.setPlayer(game.player.setVelocity(0)));
@@ -65,9 +65,8 @@ var renderer = new THREE.WebGLRenderer();
         .merge(rightStream)
         .merge(leftStream)
         .scan(gameState, (x, f) => f(x))
-        //.sampledBy(animationStream)
         .map(game => game.toThreeJsState(BrowserState.create()))
-        .sampledBy(Bacon.interval(1000))
+        .sampledBy(animationStream)
         .onValue(three => three.render(renderer));
 
 }());

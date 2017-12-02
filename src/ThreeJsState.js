@@ -12,30 +12,34 @@ function ThreeJsState(camera, meshes, browserState) {
         new THREE.Scene());
     this.width = browserState.width;
     this.height = browserState.height;
-
-    this.camera.aspect = this.width / this.height;
-    this.camera.updateProjectionMatrix();
 }
 
 GameState.prototype.toThreeJsState = function (browserState) {
-    return new ThreeJsState(
-        this.player.toCamera(),
-        this.boxes.map(box => box.toMesh()),
-        browserState
-    );
+    if (!this._threeJsState) {
+        this._threeJsState = new ThreeJsState(
+            this.player.toCamera(browserState),
+            this.boxes.map(box => box.toMesh()),
+            browserState
+        );
+    }
+
+    this._threeJsState.camera = this.player.toCamera(browserState);
+    this._threeJsState.browserState = browserState;
+
+    return this._threeJsState;
 };
 
 ThreeJsState.prototype.resize = function (browserState) {
-    return new ThreeJsState(
-        this.camera,
-        this.meshes,
-        browserState
-    );
+    this.width = browserState.width;
+    this.height = browserState.height;
+
+    this.camera.aspect = this.width / this.height;
+    this.camera.updateProjectionMatrix();
+
+    return this;
 };
 
 ThreeJsState.prototype.render = function (renderer) {
-    console.log(this.scene);
-    console.log(this.camera);
     renderer.render(this.scene, this.camera);
 };
 

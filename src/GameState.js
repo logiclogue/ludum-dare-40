@@ -4,14 +4,15 @@ function GameState(player, boxes) {
 }
 
 GameState.prototype.setPlayer = function (player) {
-    return new GameState(player, this.boxes);
+    this.player = player;
+
+    return this;
 };
 
 GameState.prototype.tick = function () {
-    return new GameState(
-        this.player.tick(),
-        this.boxes
-    );
+    this.player = this.player.tick();
+
+    return this;
 };
 
 module.exports = GameState;

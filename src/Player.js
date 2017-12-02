@@ -44,10 +44,10 @@ Player.prototype.moveRight = function (deltaDirection) {
 };
 
 Player.prototype.tick = function () {
-    this.x += (this.velocity * Math.sin(this.direction));
-    this.y += (this.velocity * Math.cos(this.direction));
-
-    return this;
+    return this.move(
+        this.x + (this.velocity * Math.sin(this.direction)),
+        this.y + (this.velocity * -Math.cos(this.direction))
+    );
 };
 
 module.exports = Player;

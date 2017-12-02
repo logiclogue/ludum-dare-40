@@ -1,8 +1,8 @@
 ## Plan
 
 -
-    - Update the stream to pipe into the view
-    - Update player controls to control the player object
+    - Fix direction for the player moving around
+    - Make moving sideways smoother
 - Create a name for the game
 -
     - Create a sprite sheet
@@ -24,3 +24,9 @@
 - Every time you kill one of these monsters, they drop things which are bad
 - Escape a building which is collapsing
     - Kind of like the end of Ocarina of Time
+
+- Collect money
+- More money you have, the more people beg to you
+- Need to collect enough money to escape
+- Wealth counter instead of health
+- People maybe steal money away from you
