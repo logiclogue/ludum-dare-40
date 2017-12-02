@@ -1,0 +1,21 @@
+{
+  "name": "ludum-dare-40",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Jordan Lord",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1"
+  },
+  "dependencies": {
+    "baconjs": "^0.7.95",
+    "scrixel-map": "^0.1.0",
+    "scrixel-spritesheet": "^1.0.0",
+    "three": "^0.88.0"
+  }
+}
