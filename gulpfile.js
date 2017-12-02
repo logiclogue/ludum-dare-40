@@ -10,13 +10,9 @@ const scrixelMap = require("scrixel-map");
 const Vinyl = require("vinyl");
 
 gulp.task("js", () => {
-    return gulp.src("src/main.ls")
+    return gulp.src("src/main.js")
         .pipe(plumber())
         .pipe(browserify())
-        .pipe(through.obj((file, encoding, callback) => {
-            console.log(file);
-            callback(null, file);
-        }))
         .pipe(addsrc("node_modules/three/build/three.min.js"))
         .pipe(concat("index.js"))
         .pipe(gulp.dest("build"));
@@ -64,7 +60,7 @@ gulp.task("levels", () => {
 });
 
 gulp.task("watch", () => {
-    watch("src/*.ls", batch((events, done) => {
+    watch("src/*.js", batch((events, done) => {
         gulp.start("js", done);
     }));
 

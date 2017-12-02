@@ -1,10 +1,6 @@
 ## Plan
 
 -
-    - Convert LiveScript to JavaScript
--
-    - Create grass object
-    - Create water object
     - Create a player object
     - Get controls working for controlling the player
 -
