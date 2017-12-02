@@ -1,10 +1,14 @@
-function BrowserState() {
-    this.width = window.innerWidth;
-    this.height = window.innerHeight;
+function BrowserState(width, height, pixelRatio) {
+    this.width = width;
+    this.height = height;
+    this.pixelRatio = pixelRatio;
 }
 
 BrowserState.create = function () {
-    new BrowserState(window.innerWidth, window.innerHeight);
+    return new BrowserState(
+        window.innerWidth,
+        window.innerHeight,
+        window.devicePixelRatio);
 };
 
 module.exports = BrowserState;

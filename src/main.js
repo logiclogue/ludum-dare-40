@@ -7,12 +7,14 @@ var _ = require("lodash");
 var map2D = require("./map2D");
 var BrowserState = require("./BrowserState");
 var GameState = require("./GameState");
+var ThreeJsState = require("./ThreeJsState");
 
-var scene = new THREE.Scene();
 var renderer = new THREE.WebGLRenderer();
 
 (function () {
     document.body.appendChild(renderer.domElement);
+
+    resize(BrowserState.create());
 
     var boxes = _(levels.sample)
         .map2D((value, x, y) => {
@@ -22,7 +24,8 @@ var renderer = new THREE.WebGLRenderer();
                 return new Water(x, y);
             }
         })
-        .flattenDeep();
+        .flattenDeep()
+        .value();
     var player = Player.create();
     var gameState = new GameState(player, boxes);
 
@@ -44,6 +47,17 @@ var renderer = new THREE.WebGLRenderer();
     var leftStream = keydownStream
         .filter(x => x.key == "a")
         .map(() => game => game.setPlayer(game.player.moveLeft(0.1)));
+    var resizeStream = Bacon.fromEvent(window, "resize")
+        .map(x => x.resize)
+        .scan(renderer, () => BrowserState.create());
+    var animationStream = Bacon.fromBinder((sink) => {
+        function f() {
+            requestAnimationFrame(f);
+            sink();
+        }
+
+        f();
+    });
 
     updateStream
         .merge(forwardStream)
@@ -51,22 +65,14 @@ var renderer = new THREE.WebGLRenderer();
         .merge(rightStream)
         .merge(leftStream)
         .scan(gameState, (x, f) => f(x))
+        //.sampledBy(animationStream)
+        .map(game => game.toThreeJsState(BrowserState.create()))
         .sampledBy(Bacon.interval(1000))
-        .log();
+        .onValue(three => three.render(renderer));
 
-    var resizeStream = Bacon.fromEvent(window, "resize")
-        .map(() => BrowserState.create());
-    var animationStream = Bacon.fromBinder((sink) => {
-        function f() {
-            requestAnimationFrame(f);
-            animate();
-            sink("animate");
-        }
-
-        f();
-    }).onValue();
 }());
 
-function animate() {
-    //renderer.render(scene, camera);
+function resize(browserState) {
+    renderer.setPixelRatio(browserState.pixelRatio);
+    renderer.setSize(browserState.width, browserState.height);
 }

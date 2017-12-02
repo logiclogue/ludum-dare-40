@@ -3,58 +3,51 @@ function Player(x, y, direction, velocity, health) {
     this.y = y;
     this.direction = direction;
     this.velocity = velocity;
-    this.health = 100;
-
-    this.isDead = this.health <= 0;
-    this.isMoving = this.velocity > 0;
+    this.health = health;
 }
 
 Player.create = function () {
     return new Player(0, 0, 0, 0, 100);
-}
+};
+
+Player.prototype.isDead = function () {
+    return this.health <= 0;
+};
+
+Player.prototype.isMoving = function () {
+    return this.velocity > 0;
+};
 
 Player.prototype.move = function (x, y) {
-    return new Player(x, y, this.direction, this.velocity, this.health);
+    this.x = x;
+    this.y = y;
+
+    return this;
 };
 
 Player.prototype.setVelocity = function (velocity) {
-    return new Player(
-        this.x,
-        this.y,
-        this.direction,
-        velocity,
-        this.health
-    );
+    this.velocity = velocity;
+
+    return this;
 };
 
 Player.prototype.moveLeft = function (deltaDirection) {
-    return new Player(
-        this.x,
-        this.y,
-        this.direction - deltaDirection,
-        this.velocity,
-        this.health
-    );
+    this.direction -= deltaDirection;
+
+    return this;
 };
 
 Player.prototype.moveRight = function (deltaDirection) {
-    return new Player(
-        this.x,
-        this.y,
-        this.direction + deltaDirection,
-        this.velocity,
-        this.health
-    );
+    this.direction += deltaDirection;
+
+    return this;
 };
 
 Player.prototype.tick = function () {
-    return new Player(
-        this.x + (this.velocity * Math.sin(this.direction)),
-        this.y + (this.velocity * Math.cos(this.direction)),
-        this.direction,
-        this.velocity,
-        this.health
-    );
+    this.x += (this.velocity * Math.sin(this.direction));
+    this.y += (this.velocity * Math.cos(this.direction));
+
+    return this;
 };
 
 module.exports = Player;
