@@ -1,17 +1,17 @@
-scene = new THREE.Scene
-camera = new THREE.PerspectiveCamera 75, window.innerWidth / window.innerHeight, 0.1, 1000
-renderer = new THREE.WebGLRenderer
-geometry = new THREE.BoxGeometry 1, 1, 1
-material = new THREE.MeshMasicMaterial { color: 0x00FF00 }
+scene = new THREE.Scene()
+camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+renderer = new THREE.WebGLRenderer()
+geometry = new THREE.BoxGeometry(1, 1, 1)
 
-console.log "Hello, World"
+console.log "Hello, World!!!"
+material = new THREE.MeshBasicMaterial { color: 0x00FF00 }
 
 mesh = new THREE.Mesh geometry, material
 
 scene.add mesh
 
-render.setPixelRatio window.devicePixelRatio
-render.setSize window.innerWidth, window.innerHeight
+renderer.setPixelRatio window.devicePixelRatio
+renderer.setSize window.innerWidth, window.innerHeight
 
 document.body.appendChild renderer.domElement
 
