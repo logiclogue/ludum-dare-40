@@ -1,13 +1,12 @@
 ## Plan
 
 -
-    - Create a player object
+    - Generate the world from the JSON data
+-
     - Get controls working for controlling the player
 -
     - Create a sprite sheet
     - Create a gulp plugin which will transform the sprite sheets into JSON
--
-    - Generate the world from the JSON data
 -
     - Create a player inventory
 -
