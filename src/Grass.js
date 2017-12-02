@@ -1,4 +1,6 @@
-module.exports = class Grass
-    (x, y) ->
-        @x = x
-        @y = y
+function Grass(x, y) {
+    this.x = x;
+    this.y = y;
+}
+
+module.exports = Grass;

@@ -1,48 +1,53 @@
-require! baconjs: Bacon
-import \Grass
+var Bacon = require("baconjs");
+var Grass = require("./Grass");
 
-console.log(new Grass 1, 2);
+console.log(new Grass(1, 2));
 
-scene = new THREE.Scene()
-camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-renderer = new THREE.WebGLRenderer()
-geometry = new THREE.BoxGeometry(1, 1, 1)
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+var renderer = new THREE.WebGLRenderer();
+var geometry = new THREE.BoxGeometry(1, 1, 1);
 
-resize = !->
-    camera.aspect = window.innerWidth / window.innerHeight
-    camera.updateProjectionMatrix()
+function resize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
 
-    renderer.setSize(window.innerWidth, window.innerHeight)
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
 
-animate = !->
-    mesh.rotation.x += 0.1
-    mesh.rotation.y += 0.1
-    mesh.position.z -= 0.1
+function animate() {
+    mesh.rotation.x += 0.1;
+    mesh.rotation.y += 0.1;
+    mesh.position.z -= 0.1;
 
-    renderer.render(scene, camera)
+    renderer.render(scene, camera);
+}
 
-console.log "Hello, World!!!"
-material = new THREE.MeshBasicMaterial { color: 0x00FF00 }
+console.log("Hello, World!!!");
 
-mesh = new THREE.Mesh(geometry, material)
+var material = new THREE.MeshBasicMaterial({ color: 0x00FF00 });
 
-scene.add(mesh)
+var mesh = new THREE.Mesh(geometry, material);
 
-renderer.setPixelRatio(window.devicePixelRatio)
-renderer.setSize(window.innerWidth, window.innerHeight)
+scene.add(mesh);
 
-document.body.appendChild(renderer.domElement)
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setSize(window.innerWidth, window.innerHeight);
 
-window.addEventListener(\resize, resize, false)
+document.body.appendChild(renderer.domElement);
 
-updateStream = Bacon.interval(1000, "test")
-animationStream = Bacon.fromBinder((sink) !->
-    f = ->
-        requestAnimationFrame(f)
-        animate()
-        sink("animate")
+window.addEventListener(\resize, resize, false);
 
-    f())
+updateStream = Bacon.interval(1000, "test");
+animationStream = Bacon.fromBinder((sink) => {
+    function f() {
+        requestAnimationFrame(f);
+        animate();
+        sink("animate");
+    }
 
-updateStream.onValue()
-animationStream.onValue()
+    f();
+});
+
+updateStream.onValue();
+animationStream.onValue();
