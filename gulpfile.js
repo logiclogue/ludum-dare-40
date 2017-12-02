@@ -1,5 +1,4 @@
 const gulp = require("gulp");
-const livescript = require("gulp-livescript");
 const browserify = require("gulp-browserify");
 const concat = require("gulp-concat");
 const through = require("through2");
@@ -9,16 +8,11 @@ const plumber = require("gulp-plumber");
 const batch = require("gulp-batch");
 const scrixelMap = require("scrixel-map");
 const Vinyl = require("vinyl");
-const bl = require("browserify-livescript");
 
 gulp.task("js", () => {
     return gulp.src("src/main.ls")
-        //.pipe(plumber())
-        //.pipe(livescript())
-        .pipe(browserify({
-            transform: [bl],
-            extensions: [".ls"]
-        }))
+        .pipe(plumber())
+        .pipe(browserify())
         .pipe(through.obj((file, encoding, callback) => {
             console.log(file);
             callback(null, file);

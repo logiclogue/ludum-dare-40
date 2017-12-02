@@ -1,6 +1,9 @@
 ## Plan
 
 -
+    - Remove LiveScript dependencies
+    - Convert LiveScript to JavaScript
+-
     - Create grass object
     - Create water object
     - Create a player object
