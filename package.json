@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "baconjs": "^0.7.95",
+    "browserify-livescript": "^0.2.3",
     "gulp": "^3.9.1",
     "gulp-add-src": "^0.2.0",
     "gulp-batch": "^1.0.5",

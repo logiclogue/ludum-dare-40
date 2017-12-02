@@ -9,16 +9,20 @@ const plumber = require("gulp-plumber");
 const batch = require("gulp-batch");
 const scrixelMap = require("scrixel-map");
 const Vinyl = require("vinyl");
+const bl = require("browserify-livescript");
 
 gulp.task("js", () => {
-    return gulp.src("src/*.ls")
+    return gulp.src("src/main.ls")
+        //.pipe(plumber())
+        //.pipe(livescript())
+        .pipe(browserify({
+            transform: [bl],
+            extensions: [".ls"]
+        }))
         .pipe(through.obj((file, encoding, callback) => {
             console.log(file);
             callback(null, file);
         }))
-        .pipe(plumber())
-        .pipe(livescript())
-        .pipe(browserify())
         .pipe(addsrc("node_modules/three/build/three.min.js"))
         .pipe(concat("index.js"))
         .pipe(gulp.dest("build"));
@@ -75,4 +79,4 @@ gulp.task("watch", () => {
     }));
 });
 
-gulp.task("default", [ "watch" ]);
+gulp.task("default", [ "js", "levels", "watch" ]);
