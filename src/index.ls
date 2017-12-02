@@ -4,6 +4,8 @@ renderer = new THREE.WebGLRenderer
 geometry = new THREE.BoxGeometry 1, 1, 1
 material = new THREE.MeshMasicMaterial { color: 0x00FF00 }
 
+console.log "Hello, World"
+
 mesh = new THREE.Mesh geometry, material
 
 scene.add mesh
