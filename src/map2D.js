@@ -8,4 +8,8 @@ var map2D = function (arrayOfArrays, f) {
     });
 };
 
+_.prototype.map2D = function (f) {
+    return _(map2D(this.value(), f));
+};
+
 module.exports = map2D;

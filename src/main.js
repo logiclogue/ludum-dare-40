@@ -3,8 +3,7 @@ var Grass = require("./Grass");
 var Water = require("./Water");
 var levels = require("../build/levels.json");
 var _ = require("lodash");
-
-require("lodash-helpers");
+var map2D = require("./map2D");
 
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(
@@ -13,7 +12,9 @@ var camera = new THREE.PerspectiveCamera(
     0.1,
     1000);
 
-camera.position.y = 1;
+camera.position.y = 2;
+camera.position.x = 10;
+camera.position.z = 10;
 
 var renderer = new THREE.WebGLRenderer();
 
@@ -47,16 +48,18 @@ Water.prototype.toMesh = function () {
 };
 
 (function () {
-    var grass = new Grass(-5, 0);
-
-    _.range(-5, 5).forEach(x =>
-        _.range(-5, 5).forEach(y =>
-            scene.add(new Water(x, y).toMesh())));
-    console.log(levels.sample);
-
-    _.map2D(levels.sample, (value, x, y) => {
-
-    });
+    _(levels.sample)
+        .map2D((value, x, y) => {
+            if (value === 0x00FF00FF) {
+                return new Grass(x, y);
+            } else if (value === 0x0000FFFF) {
+                return new Water(x, y);
+            }
+        })
+        .flattenDeep()
+        .forEach(value => {
+            scene.add(value.toMesh());
+        });
 
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -65,8 +68,8 @@ Water.prototype.toMesh = function () {
 
     window.addEventListener("resize", resize, false);
 
-    updateStream = Bacon.interval(50, "test").onValue(update);
-    animationStream = Bacon.fromBinder((sink) => {
+    var updateStream = Bacon.interval(50, "test").onValue(update);
+    var animationStream = Bacon.fromBinder((sink) => {
         function f() {
             requestAnimationFrame(f);
             animate();
@@ -75,6 +78,11 @@ Water.prototype.toMesh = function () {
 
         f();
     }).onValue();
+    var keyStream = Bacon.fromEvent(document.body, "keydown")
+        .map(x => x.key);
+
+    keyStream.filter(key => key === "w").onValue(() => camera.position.z += 1);
+    keyStream.filter(key => key === "s").onValue(() => camera.position.z -= 1);
 }());
 
 function resize() {
