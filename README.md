@@ -15,9 +15,6 @@
 -
     - Create a menu
 - Level switching
--
-    - Create a CSS file
-    - Get rid of outline on the canvas
 
 ## Ideas
 
