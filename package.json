@@ -22,6 +22,7 @@
     "gulp-concat": "^2.6.1",
     "gulp-plumber": "^1.1.0",
     "gulp-watch": "^4.3.11",
+    "lodash": "^4.17.4",
     "scrixel-map": "^0.1.0",
     "scrixel-spritesheet": "^1.0.0",
     "three": "^0.88.0",
