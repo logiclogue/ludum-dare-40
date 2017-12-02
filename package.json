@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "baconjs": "^0.7.95",
+    "gulp": "^3.9.1",
     "scrixel-map": "^0.1.0",
     "scrixel-spritesheet": "^1.0.0",
     "three": "^0.88.0"
