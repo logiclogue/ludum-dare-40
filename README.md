@@ -1,6 +1,8 @@
 ## Plan
 
 -
+    - Update the player to have a velocity
+    - Update the player to have a vector
     - Create a stream which continuously updates the game logic
     - Update the stream to pipe into the view
     - Update player controls to control the player object

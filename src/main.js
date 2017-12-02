@@ -1,54 +1,20 @@
 var Bacon = require("baconjs");
 var Grass = require("./Grass");
+var Player = require("./Player");
 var Water = require("./Water");
 var levels = require("../build/levels.json");
 var _ = require("lodash");
 var map2D = require("./map2D");
+var BrowserState = require("./BrowserState");
+var GameState = require("./GameState");
 
 var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000);
-
-camera.position.y = 2;
-camera.position.x = 10;
-camera.position.z = 10;
-
 var renderer = new THREE.WebGLRenderer();
 
-Grass.prototype.toMesh = function () {
-    var geometry = new THREE.PlaneGeometry(1, 1, 1);
-    var material = new THREE.MeshBasicMaterial({
-        color: 0x00FF00
-    });
-    var mesh = new THREE.Mesh(geometry, material);
-
-    mesh.position.x = this.x;
-    mesh.position.z = this.y;
-    mesh.rotation.x = -Math.PI / 2;
-
-    return mesh;
-};
-
-Water.prototype.toMesh = function () {
-    var geometry = new THREE.PlaneGeometry(1, 1, 1);
-    var material = new THREE.MeshBasicMaterial({
-        color: 0x0000FF
-    });
-    var mesh = new THREE.Mesh(geometry, material);
-
-    mesh.position.x = this.x;
-    mesh.position.y = -0.5;
-    mesh.position.z = this.y;
-    mesh.rotation.x = -Math.PI / 2;
-
-    return mesh;
-};
-
 (function () {
-    _(levels.sample)
+    document.body.appendChild(renderer.domElement);
+
+    var boxes = _(levels.sample)
         .map2D((value, x, y) => {
             if (value === 0x00FF00FF) {
                 return new Grass(x, y);
@@ -56,19 +22,40 @@ Water.prototype.toMesh = function () {
                 return new Water(x, y);
             }
         })
-        .flattenDeep()
-        .forEach(value => {
-            scene.add(value.toMesh());
-        });
+        .flattenDeep();
+    var player = Player.create();
+    var gameState = new GameState(player, boxes);
 
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    var updateStream = Bacon
+        .interval(50, x => x.tick());
 
-    document.body.appendChild(renderer.domElement);
+    var keydownStream = Bacon.fromEvent(document.body, "keydown");
+    var keyupStream = Bacon.fromEvent(document.body, "keyup");
 
-    window.addEventListener("resize", resize, false);
+    var forwardStream = keydownStream
+        .filter(x => x.key == "w")
+        .map(() => game => game.setPlayer(game.player.setVelocity(0.1)));
+    var stopStream = keyupStream
+        .filter(x => x.key == "w")
+        .map(() => game => game.setPlayer(game.player.setVelocity(0)));
+    var rightStream = keydownStream
+        .filter(x => x.key == "d")
+        .map(() => game => game.setPlayer(game.player.moveRight(0.1)));
+    var leftStream = keydownStream
+        .filter(x => x.key == "a")
+        .map(() => game => game.setPlayer(game.player.moveLeft(0.1)));
 
-    var updateStream = Bacon.interval(50, "test").onValue(update);
+    updateStream
+        .merge(forwardStream)
+        .merge(stopStream)
+        .merge(rightStream)
+        .merge(leftStream)
+        .scan(gameState, (x, f) => f(x))
+        .sampledBy(Bacon.interval(1000))
+        .log();
+
+    var resizeStream = Bacon.fromEvent(window, "resize")
+        .map(() => BrowserState.create());
     var animationStream = Bacon.fromBinder((sink) => {
         function f() {
             requestAnimationFrame(f);
@@ -78,24 +65,8 @@ Water.prototype.toMesh = function () {
 
         f();
     }).onValue();
-    var keyStream = Bacon.fromEvent(document.body, "keydown")
-        .map(x => x.key);
-
-    keyStream.filter(key => key === "w").onValue(() => camera.position.z += 1);
-    keyStream.filter(key => key === "s").onValue(() => camera.position.z -= 1);
 }());
 
-function resize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-
-    renderer.setSize(window.innerWidth, window.innerHeight);
-}
-
-function update() {
-
-}
-
 function animate() {
-    renderer.render(scene, camera);
+    //renderer.render(scene, camera);
 }
