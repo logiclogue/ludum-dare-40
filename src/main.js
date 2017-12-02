@@ -1,6 +1,10 @@
 var Bacon = require("baconjs");
 var Grass = require("./Grass");
+var Water = require("./Water");
+var levels = require("../build/levels.json");
 var _ = require("lodash");
+
+require("lodash-helpers");
 
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(
@@ -27,12 +31,32 @@ Grass.prototype.toMesh = function () {
     return mesh;
 };
 
+Water.prototype.toMesh = function () {
+    var geometry = new THREE.PlaneGeometry(1, 1, 1);
+    var material = new THREE.MeshBasicMaterial({
+        color: 0x0000FF
+    });
+    var mesh = new THREE.Mesh(geometry, material);
+
+    mesh.position.x = this.x;
+    mesh.position.y = -0.5;
+    mesh.position.z = this.y;
+    mesh.rotation.x = -Math.PI / 2;
+
+    return mesh;
+};
+
 (function () {
     var grass = new Grass(-5, 0);
 
     _.range(-5, 5).forEach(x =>
         _.range(-5, 5).forEach(y =>
-            scene.add(new Grass(x, y).toMesh())));
+            scene.add(new Water(x, y).toMesh())));
+    console.log(levels.sample);
+
+    _.map2D(levels.sample, (value, x, y) => {
+
+    });
 
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
