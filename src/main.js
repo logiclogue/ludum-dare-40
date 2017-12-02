@@ -30,6 +30,10 @@ function animate() {
 }
 
 Grass.prototype.toMesh = function () {
+    var geometry = new THREE.PlaneGeometry(1, 1, 1);
+    var material = new THREE.MeshBasicMaterial({ color: 0x00FF00 });
+
+    return new THREE.Mesh(geometry, material);
 };
 
 var material = new THREE.MeshBasicMaterial({ color: 0x00FF00 });
