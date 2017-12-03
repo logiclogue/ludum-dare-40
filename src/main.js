@@ -25,6 +25,8 @@ var renderer = new THREE.WebGLRenderer();
                 return new Water(x, y);
             } else if (value === 0xFFFF00FF) {
                 return [ new Grass(x, y), new Coin().move(x, y) ];
+            } else if (value === 0x000000FF) {
+                return [ new Grass(x, y), new Person().move(x, y) ];
             }
         })
         .flattenDeep()

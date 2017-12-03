@@ -63,7 +63,7 @@ gulp.task("levels", () => {
 gulp.task("sprites", () => {
     return gulp.src("sprites/*")
         .pipe(through.obj((file, encoding, callback) => {
-            scrixelSpriteSheet(8, 8, file.path).then(images => {
+            scrixelSpriteSheet(4, 8, file.path).then(images => {
                 const base64Images = images.map(image =>
                     image.toString("base64"));
                 const json = JSON.stringify(base64Images);
@@ -111,6 +111,10 @@ gulp.task("watch", () => {
     watch("levels/*", batch((events, done) => {
         gulp.start("levels", done);
     }));
+
+    watch("sprites/*", batch((events, done) => {
+        gulp.start("sprites", done);
+    }));
 });
 
-gulp.task("default", [ "js", "levels", "watch" ]);
+gulp.task("default", [ "js", "levels", "sprites", "watch" ]);

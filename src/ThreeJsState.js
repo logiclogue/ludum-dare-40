@@ -12,6 +12,9 @@ function ThreeJsState(camera, meshes, browserState) {
         new THREE.Scene());
     this.width = browserState.width;
     this.height = browserState.height;
+    this.startTime = Date.now();
+
+    this.scene.background = new THREE.Color(0x8888FF);
 }
 
 GameState.prototype.toThreeJsState = function (browserState) {
@@ -23,7 +26,9 @@ GameState.prototype.toThreeJsState = function (browserState) {
         );
     }
 
-    this.removed.forEach(mesh => this._threeJsState.scene.remove(mesh.toMesh()));
+    this.meshes = this.boxes.map(box => box.toMesh());
+    this.removed.forEach(mesh =>
+        this._threeJsState.scene.remove(mesh.toMesh()));
     this.removed = [];
 
     this._threeJsState.camera = this.player.toCamera(browserState);

@@ -1,7 +1,6 @@
 ## Plan
 
 -
-    - Create a gulp plugin which will transform the sprite sheets into JSON
     - Create another person in the game
 -
     - Collision
