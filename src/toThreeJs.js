@@ -61,7 +61,7 @@ Coin.prototype.toMesh = function () {
     var geometry, material;
 
     if (!this._mesh) {
-        geometry = new THREE.BoxGeometry(0.8, 0.8, 0.2);
+        geometry = new THREE.BoxGeometry(0.8, 0.2, 0.8);
         material = new THREE.MeshBasicMaterial({
             color: 0xFFFF00
         });
@@ -69,7 +69,7 @@ Coin.prototype.toMesh = function () {
     }
 
     this._mesh.position.x = this.position.x;
-    this._mesh.position.y = 2;
+    this._mesh.position.y = 0.1;
     this._mesh.position.z = this.position.y;
 
     return this._mesh;

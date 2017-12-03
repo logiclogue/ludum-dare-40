@@ -8,6 +8,7 @@ var map2D = require("./map2D");
 var BrowserState = require("./BrowserState");
 var GameState = require("./GameState");
 var ThreeJsState = require("./ThreeJsState");
+var Coin = require("./Coin");
 
 var renderer = new THREE.WebGLRenderer();
 
@@ -22,6 +23,8 @@ var renderer = new THREE.WebGLRenderer();
                 return new Grass(x, y);
             } else if (value === 0x0000FFFF) {
                 return new Water(x, y);
+            } else if (value === 0xFFFF00FF) {
+                return [ new Grass(x, y), new Coin().move(x, y) ];
             }
         })
         .flattenDeep()

@@ -1,14 +1,12 @@
 ## Plan
 
 -
-    - Render the coin in the world
-    - Update person to use position
-    - Collision
-
-- Create a name for the game
--
     - Implementing moving backwards
     - Make moving sideways smoother (implement angular velocity)
+-
+    - Update person to use position
+    - Collision
+- Create a name for the game
 -
     - Create a menu
 - Level switching
