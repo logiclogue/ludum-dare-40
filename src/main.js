@@ -30,7 +30,7 @@ var renderer = new THREE.WebGLRenderer();
     var gameState = new GameState(player, boxes);
 
     var updateStream = Bacon
-        .interval(1000 / 60, x => x.tick());
+        .interval(1000 / 60, x => x.updateState());
 
     var keydownStream = Bacon.fromEvent(document.body, "keydown");
     var keyupStream = Bacon.fromEvent(document.body, "keyup");

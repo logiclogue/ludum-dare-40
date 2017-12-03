@@ -9,10 +9,10 @@ GameState.prototype.setPlayer = function (person) {
     return this;
 };
 
-GameState.prototype.tick = function () {
-    this.player = this.player.tick();
+GameState.prototype.updateState = function () {
+    this.player = this.player.updateState();
 
-    return this;
+    return this.player.updateGameState(this);
 };
 
 module.exports = GameState;

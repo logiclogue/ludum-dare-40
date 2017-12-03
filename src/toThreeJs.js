@@ -1,6 +1,7 @@
 var Grass = require("./Grass");
 var Water = require("./Water");
 var Person = require("./Person");
+var Coin = require("./Coin");
 
 Grass.prototype.toMesh = function () {
     var geometry, material;
@@ -54,4 +55,22 @@ Person.prototype.toCamera = function (browserState) {
     this._camera.rotation.y = -this.direction;
 
     return this._camera;
+};
+
+Coin.prototype.toMesh = function () {
+    var geometry, material;
+
+    if (!this._mesh) {
+        geometry = new THREE.BoxGeometry(0.8, 0.8, 0.2);
+        material = new THREE.MeshBasicMaterial({
+            color: 0xFFFF00
+        });
+        this._mesh = new THREE.Mesh(geometry, material);
+    }
+
+    this._mesh.position.x = this.position.x;
+    this._mesh.position.y = 2;
+    this._mesh.position.z = this.position.y;
+
+    return this._mesh;
 };

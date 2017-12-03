@@ -1,8 +1,8 @@
 ## Plan
 
 -
-    - Rename tick function on each object
-    - Implement a function on each object which alters the game state
+    - Render the coin in the world
+    - Update person to use position
     - Collision
 
 - Create a name for the game

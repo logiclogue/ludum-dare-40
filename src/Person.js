@@ -43,11 +43,15 @@ Person.prototype.moveRight = function (deltaDirection) {
     return this;
 };
 
-Person.prototype.tick = function () {
+Person.prototype.updateState = function () {
     return this.move(
         this.x + (this.velocity * Math.sin(this.direction)),
         this.y + (this.velocity * -Math.cos(this.direction))
     );
+};
+
+Person.prototype.updateGameState = function (gameState) {
+    return gameState;
 };
 
 module.exports = Person;
