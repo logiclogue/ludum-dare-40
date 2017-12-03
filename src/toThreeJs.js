@@ -50,8 +50,8 @@ Person.prototype.toCamera = function (browserState) {
     }
 
     this._camera.position.y = 2;
-    this._camera.position.x = this.x;
-    this._camera.position.z = this.y;
+    this._camera.position.x = this.position.x;
+    this._camera.position.z = this.position.y;
     this._camera.rotation.y = -this.direction;
 
     return this._camera;
