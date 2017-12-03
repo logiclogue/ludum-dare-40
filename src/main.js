@@ -41,15 +41,27 @@ var renderer = new THREE.WebGLRenderer();
     var forwardStream = keydownStream
         .filter(x => x.key == "w")
         .map(() => game => game.setPlayer(game.player.setVelocity(1)));
-    var stopStream = keyupStream
+    var stopForwardStream = keyupStream
         .filter(x => x.key == "w")
+        .map(() => game => game.setPlayer(game.player.setVelocity(0)));
+    var backwardStream = keydownStream
+        .filter(x => x.key == "s")
+        .map(() => game => game.setPlayer(game.player.setVelocity(-1)));
+    var stopBackwardStream = keyupStream
+        .filter(x => x.key == "s")
         .map(() => game => game.setPlayer(game.player.setVelocity(0)));
     var rightStream = keydownStream
         .filter(x => x.key == "d")
-        .map(() => game => game.setPlayer(game.player.moveRight(0.1)));
+        .map(() => game => game.setPlayer(game.player.setAngularVelocity(0.1)));
+    var stopRightStream = keyupStream
+        .filter(x => x.key == "d")
+        .map(() => game => game.setPlayer(game.player.setAngularVelocity(0)));
     var leftStream = keydownStream
         .filter(x => x.key == "a")
-        .map(() => game => game.setPlayer(game.player.moveLeft(0.1)));
+        .map(() => game => game.setPlayer(game.player.setAngularVelocity(-0.1)));
+    var stopLeftStream = keyupStream
+        .filter(x => x.key == "a")
+        .map(() => game => game.setPlayer(game.player.setAngularVelocity(0)));
     var resizeStream = Bacon.fromEvent(window, "resize")
         .map(x => x.resize)
         .scan(renderer, () => BrowserState.create());
@@ -64,9 +76,13 @@ var renderer = new THREE.WebGLRenderer();
 
     updateStream
         .merge(forwardStream)
-        .merge(stopStream)
+        .merge(stopForwardStream)
+        .merge(backwardStream)
+        .merge(stopBackwardStream)
         .merge(rightStream)
+        .merge(stopRightStream)
         .merge(leftStream)
+        .merge(stopLeftStream)
         .scan(gameState, (x, f) => f(x))
         .map(game => game.toThreeJsState(BrowserState.create()))
         .map(three => () => three.render(renderer))

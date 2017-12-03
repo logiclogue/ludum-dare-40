@@ -1,12 +1,12 @@
 ## Plan
 
 -
-    - Implementing moving backwards
-    - Make moving sideways smoother (implement angular velocity)
--
+    - Remove the coin from the world
     - Update person to use position
+    - Update the person to collect the coin
     - Collision
 - Create a name for the game
+- Fix resizing of the screen
 -
     - Create a menu
 - Level switching
