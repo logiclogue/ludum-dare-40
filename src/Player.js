@@ -1,17 +1,18 @@
-function Player(x, y, direction, velocity, health) {
-    this.x = x;
-    this.y = y;
-    this.direction = direction;
-    this.velocity = velocity;
-    this.health = health;
+function Player() {
+    this.x = 0;
+    this.y = 0;
+    this.direction = 0;
+    this.velocity = 0;
+    this.health = 100;
+    this.wealth = 10;
 }
-
-Player.create = function () {
-    return new Player(0, 0, 0, 0, 100);
-};
 
 Player.prototype.isDead = function () {
     return this.health <= 0;
+};
+
+Player.prototype.isBroke = function () {
+    return this.wealth <= 0;
 };
 
 Player.prototype.isMoving = function () {
