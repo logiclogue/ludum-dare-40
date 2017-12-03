@@ -1,8 +1,9 @@
 ## Plan
 
 -
-    - Update person to use position
-    - Update the person to collect the coin
+    - Create a gulp plugin which will transform the sprite sheets into JSON
+    - Create another person in the game
+-
     - Collision
 - Create a name for the game
 - Fix resizing of the screen
@@ -10,8 +11,7 @@
     - Create a menu
 - Level switching
 -
-    - Create a sprite sheet
-    - Create a gulp plugin which will transform the sprite sheets into JSON
+    - Create a sprite sheet for grass
     - Update the grass so that it has 3dness
     - Update the water so that it's height is a function of time and its
       position

@@ -7,6 +7,7 @@ const watch = require("gulp-watch");
 const plumber = require("gulp-plumber");
 const batch = require("gulp-batch");
 const scrixelMap = require("scrixel-map");
+const scrixelSpriteSheet = require("scrixel-spritesheet");
 const Vinyl = require("vinyl");
 
 gulp.task("js", () => {
@@ -56,6 +57,49 @@ gulp.task("levels", () => {
 
             return through.obj(bufferContents, endStream);
         }("levels.json")))
+        .pipe(gulp.dest("build"));
+});
+
+gulp.task("sprites", () => {
+    return gulp.src("sprites/*")
+        .pipe(through.obj((file, encoding, callback) => {
+            scrixelSpriteSheet(8, 8, file.path).then(images => {
+                const base64Images = images.map(image =>
+                    image.toString("base64"));
+                const json = JSON.stringify(base64Images);
+                const newFile = new Vinyl({
+                    contents: new Buffer(json)
+                });
+
+                newFile.path = file.path;
+                newFile.extname = ".json";
+                newFile.content = json;
+
+                callback(null, newFile);
+            }).catch(err => console.error(err));
+        }))
+        .pipe(function (fileName) {
+            let obj = {};
+
+            function bufferContents(file, encoding, callback) {
+                obj[file.stem] = JSON.parse(file.contents);
+                
+                callback();
+            }
+
+            function endStream(callback) {
+                const json = JSON.stringify(obj);
+                const newFile = new Vinyl({
+                    contents: new Buffer(json)
+                });
+
+                newFile.path = fileName;
+
+                callback(null, newFile);
+            }
+
+            return through.obj(bufferContents, endStream);
+        }("sprites.json"))
         .pipe(gulp.dest("build"));
 });
 
