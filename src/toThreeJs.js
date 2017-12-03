@@ -51,7 +51,7 @@ Player.prototype.toCamera = function (browserState) {
     this._camera.position.y = 2;
     this._camera.position.x = this.x;
     this._camera.position.z = this.y;
-    this._camera.rotation.y = this.direction;
+    this._camera.rotation.y = -this.direction;
 
     return this._camera;
 };
