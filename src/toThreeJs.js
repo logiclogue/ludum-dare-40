@@ -1,6 +1,6 @@
 var Grass = require("./Grass");
 var Water = require("./Water");
-var Player = require("./Player");
+var Person = require("./Person");
 
 Grass.prototype.toMesh = function () {
     var geometry, material;
@@ -39,7 +39,7 @@ Water.prototype.toMesh = function () {
     return this._mesh;
 };
 
-Player.prototype.toCamera = function (browserState) {
+Person.prototype.toCamera = function (browserState) {
     if (!this._camera) {
         this._camera = new THREE.PerspectiveCamera(
             75,

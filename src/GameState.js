@@ -3,8 +3,8 @@ function GameState(player, boxes) {
     this.boxes = boxes;
 }
 
-GameState.prototype.setPlayer = function (player) {
-    this.player = player;
+GameState.prototype.setPlayer = function (person) {
+    this.player = person;
 
     return this;
 };

@@ -1,14 +1,17 @@
 ## Plan
 
-- Implement wealth counter
-- Abstract Player away in to Person class
-- Collision
+-
+    - Rename tick function on each object
+    - Implement a function on each object which alters the game state
+    - Collision
+
 - Create a name for the game
+-
+    - Implementing moving backwards
+    - Make moving sideways smoother (implement angular velocity)
 -
     - Create a menu
 - Level switching
--
-    - Make moving sideways smoother
 -
     - Create a sprite sheet
     - Create a gulp plugin which will transform the sprite sheets into JSON

@@ -1,6 +1,6 @@
 var Bacon = require("baconjs");
 var Grass = require("./Grass");
-var Player = require("./Player");
+var Person = require("./Person");
 var Water = require("./Water");
 var levels = require("../build/levels.json");
 var _ = require("lodash");
@@ -26,7 +26,7 @@ var renderer = new THREE.WebGLRenderer();
         })
         .flattenDeep()
         .value();
-    var player = Player.create();
+    var player = new Person();
     var gameState = new GameState(player, boxes);
 
     var updateStream = Bacon
