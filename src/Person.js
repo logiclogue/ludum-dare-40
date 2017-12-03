@@ -57,8 +57,9 @@ Person.prototype.updateGameState = function (gameState) {
         .find(coin => coin.position.distance(pos) < 1);
 
     if (closestCoin) {
-        console.log("MINE!");
-        gameState.boxes = _.filter(gameState.boxes, box => box !== closestCoin);
+        this.wallet = this.wallet.deposit(1);
+        console.log(this.wallet.value);
+        gameState = gameState.removeBox(closestCoin);
     }
 
     return gameState;

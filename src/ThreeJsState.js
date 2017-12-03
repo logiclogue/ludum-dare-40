@@ -23,6 +23,9 @@ GameState.prototype.toThreeJsState = function (browserState) {
         );
     }
 
+    this.removed.forEach(mesh => this._threeJsState.scene.remove(mesh.toMesh()));
+    this.removed = [];
+
     this._threeJsState.camera = this.player.toCamera(browserState);
     this._threeJsState.browserState = browserState;
 
