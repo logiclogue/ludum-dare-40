@@ -66,8 +66,8 @@ var renderer = new THREE.WebGLRenderer();
         .merge(leftStream)
         .scan(gameState, (x, f) => f(x))
         .map(game => game.toThreeJsState(BrowserState.create()))
-        .sampledBy(animationStream)
-        .onValue(three => three.render(renderer));
+        .map(three => () => three.render(renderer))
+        .onValue(f => requestAnimationFrame(f));
 
 }());
 
